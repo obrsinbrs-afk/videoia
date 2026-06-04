@@ -52,7 +52,7 @@
 
     .headline {
       color: #ffffff;
-      font-size: clamp(1.25rem, 5.5vw, 2.2rem);
+      font-size: clamp(1.8rem, 7vw, 3rem);
       font-weight: 800;
       text-align: center;
       width: 100%;
@@ -676,13 +676,22 @@
     tick();
     setInterval(tick, 1000);
 
-    // Passa UTMs da página atual para os botões de checkout
+    // Passa UTMs + parâmetros TikTok e Meta para o checkout
     (function() {
       const params = new URLSearchParams(window.location.search);
-      const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','src'];
+      const keys = [
+        // UTMs padrão
+        'utm_source','utm_medium','utm_campaign','utm_term','utm_content','src',
+        // TikTok
+        'ttclid','tt_campaign_id','tt_adgroup_id','tt_ad_id',
+        // Meta / Facebook
+        'fbclid','fb_campaign_id','fb_adset_id','fb_ad_id',
+        // Outros rastreadores comuns
+        'gclid','sck','ref'
+      ];
       const utms = new URLSearchParams();
 
-      utmKeys.forEach(k => {
+      keys.forEach(k => {
         if (params.get(k)) utms.set(k, params.get(k));
       });
 
