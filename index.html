@@ -676,6 +676,25 @@
     tick();
     setInterval(tick, 1000);
 
+    // Passa UTMs da página atual para os botões de checkout
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','src'];
+      const utms = new URLSearchParams();
+
+      utmKeys.forEach(k => {
+        if (params.get(k)) utms.set(k, params.get(k));
+      });
+
+      const utmString = utms.toString();
+      if (!utmString) return;
+
+      document.querySelectorAll('a.btn-cta, a.btn-sticky').forEach(btn => {
+        const base = btn.href.split('?')[0];
+        btn.href = base + '?' + utmString;
+      });
+    })();
+
     // Revelar elementos após 12min 50seg (770 segundos)
     const TEMPO_REVELAR = 770 * 1000;
     setTimeout(() => {
